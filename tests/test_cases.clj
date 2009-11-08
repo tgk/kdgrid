@@ -1,4 +1,4 @@
-(ns tests.test-case
+(ns tests.test-cases
   (:use (kdgrid datastructure)
         clojure.set
         clojure.contrib.test-is 
@@ -52,5 +52,3 @@
 
 (deftest test-sparse-fingerprint-from-string
   (is (= [10,42,101] (sparse-fingerprint-from-string "10,42,101"))))
-
-(run-tests)
