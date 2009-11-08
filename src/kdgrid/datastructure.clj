@@ -13,8 +13,9 @@
   (let [chunk-indexes (map (partial chunk-bin k max-int) fingerprint)]
     (reduce #(assoc %1 %2 (inc (get %1 %2 0))) {} chunk-indexes)))
 
-;; When using this function, create a new one using partial k max-int and use that
-;; so we don't have to remember k or max-int more in the rest of the program
+;; When using this function, create a new one using partial k max-int and 
+;; use that so we don't have to remember k or max-int more in the rest of 
+;; the program
 (defn create-chunk-vector [k max-int fingerprint]
   (let [summary (create-chunk-summary k max-int fingerprint)]
     (for [chunk (range k)] (get summary chunk 0))))
@@ -42,13 +43,10 @@
 (defn build-grid-tree [grid-map]
   (reduce add-leaf-to-tree {} grid-map))
 
-(def empty-results [])
-(defn add-fingerprint-to-results [results fingerprint]
-  (conj results fingerprint))
-
 ;; Memorize this?
 (defn sum [l] (reduce + l))
 
+;; Ugly thing to do, calculating the sum again and again and again...
 (defn inner-max-tanimoto [min-sum max-sum query-chunks]
   (/ (+ min-sum (sum query-chunks)) (+ max-sum (sum query-chunks))))
 
@@ -76,12 +74,6 @@
 (defn sparse-fingerprints-from-file [file-name]
   (map sparse-fingerprint-from-string (read-lines file-name)))
 
-(def example-grid-tree 
-  (build-grid-tree 
-    {[1,2,3] [:leaf1] 
-    [1,2,4] [:leaf2 :leaf4] 
-    [2,1,1] [:leaf3]}))
-
 (defn tanimoto-on-sets [a b] 
   (/ 
     (count (intersection a b))
@@ -99,3 +91,9 @@
         grid-tree (build-grid-tree grid-set)]
     (fn [query min-tanimoto] 
       (perform-query grid-tree query min-tanimoto (chunk-vector query)))))
+      
+(defn linear-searcher [fingerprints]
+  (fn [query min-tanimoto]
+    (filter 
+      #(>= (tanimoto-on-sets query %) min-tanimoto)
+      fingerprints)))

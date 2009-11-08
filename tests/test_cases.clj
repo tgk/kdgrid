@@ -52,3 +52,14 @@
 
 (deftest test-sparse-fingerprint-from-string
   (is (= [10,42,101] (sparse-fingerprint-from-string "10,42,101"))))
+
+(deftest test-search-grid-tree 
+  (def example-grid-tree 
+    (build-grid-tree 
+      {[1,2,3] [:leaf1] 
+      [1,2,4] [:leaf2 :leaf4] 
+      [2,1,1] [:leaf3]}))
+      
+  (is (= 
+    #{:leaf1 :leaf2 :leaf4} 
+    (set (search-grid-tree example-grid-tree 0.9 [1,2,3])))))
