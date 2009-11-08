@@ -1,5 +1,6 @@
 (ns tests.test-case
-  (:use clojure.set
+  (:use (kdgrid datastructure)
+        clojure.set
         clojure.contrib.test-is 
         [clojure.contrib.duck-streams :only (read-lines)]))
 
