@@ -11,7 +11,7 @@
   
 (defn create-chunk-summary [k max-int fingerprint]
   (let [chunk-indexes (map (partial chunk-bin k max-int) fingerprint)]
-    (reduce #(assoc %1 %2 (inc (get %1 %2 0))) {} chunk-indexes)))
+     (reduce #(assoc %1 %2 (inc (get %1 %2 0))) {} chunk-indexes)))
 
 ;; When using this function, create a new one using partial k max-int and 
 ;; use that so we don't have to remember k or max-int more in the rest of 
@@ -30,18 +30,9 @@
           (assoc grid chunk-vector 
             (conj (get grid chunk-vector []) fingerprint))))
     {} fingerprints)))
-     
-(defn add-leaf-to-tree [tree [chunk-vector leaf]]
-    (cond 
-      (= chunk-vector []) 
-        leaf
-      :else 
-        (assoc tree (first chunk-vector)
-          (add-leaf-to-tree 
-            (get tree (first chunk-vector) {}) [(rest chunk-vector) leaf]))))    
 
 (defn build-grid-tree [grid-map]
-  (reduce add-leaf-to-tree {} grid-map))
+  (reduce (fn [m [k v]] (assoc-in m k v)) {} grid-map))
 
 ;; Memorize this?
 (defn sum [l] (reduce + l))

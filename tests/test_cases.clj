@@ -40,10 +40,10 @@
     {'(4 4 2) [(range 10)], '(1 0 1) [[0 9] [1 8]]}
      (create-kD-grid 3 [[0, 9], (range 10), [1, 8]]))))
 
-(deftest test-add-leaf-to-tree 
-  (is (= {1 {2 :leaf}} (add-leaf-to-tree {} [[1, 2] :leaf])))
-  (is (= {1 {2 :leaf1 3 :leaf2}} 
-    (add-leaf-to-tree (add-leaf-to-tree {} [[1, 2] :leaf1]) [[1, 3] :leaf2]))))
+; (deftest test-add-leaf-to-tree 
+;   (is (= {1 {2 :leaf}} (add-leaf-to-tree {} [[1, 2] :leaf])))
+;   (is (= {1 {2 :leaf1 3 :leaf2}} 
+;     (add-leaf-to-tree (add-leaf-to-tree {} [[1, 2] :leaf1]) [[1, 3] :leaf2]))))
     
 (deftest test-build-grid-tree
   (is (= 
